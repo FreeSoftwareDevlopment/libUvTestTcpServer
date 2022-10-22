@@ -79,7 +79,7 @@ static void after_read(uv_stream_t* handle,
 			send[nread - 1 - s] = buf->base[s];
 		}
 		send[nread] = 0;
-		free(buf->base);
+		free(buf->base);// FREE BUFFER IF NOT NEEDED
 	}
 	//END OF REVERSE
 
