@@ -14,8 +14,8 @@ RUN cmake --build /server
 
 WORKDIR /server/libUvTest
 
-RUN rm -rf /app
 RUN apk del cmake build-base make
+RUN rm -rf /app
 
 EXPOSE 8000
 
