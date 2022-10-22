@@ -15,7 +15,6 @@ static void on_close(uv_handle_t* handle) {
 
 static void after_write(uv_write_t* req, int status) {
 	write_req_t* wr = (write_req_t*)req;
-
 	if (wr->buf.base != NULL)
 		free(wr->buf.base);
 	free(wr);
@@ -57,7 +56,8 @@ static void after_read(uv_stream_t* handle,
 
 	if (nread < 0) {
 		/*assert(nread == UV_EOF);*/
-		fprintf(stderr, "err: %s\n", uv_strerror(nread));
+		if (nread != UV_EOF)
+			fprintf(stderr, "err: %s\n", uv_strerror(nread));
 
 		req = (uv_shutdown_t*)malloc(sizeof(*req));
 		assert(req != NULL);
@@ -79,6 +79,7 @@ static void after_read(uv_stream_t* handle,
 			send[nread - 1 - s] = buf->base[s];
 		}
 		send[nread] = 0;
+		free(buf->base);
 	}
 	//END OF REVERSE
 
